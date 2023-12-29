@@ -13,11 +13,22 @@ def filter_location(location, long_range, lat_range):
         (location['Latitude'].between(*lat_range))
     ]
 
+#This function plots the Grow Data Set
+#And produces an image for the results
 def plot_grow_data(location, map_path, output_path):
     long_range = [50.681, 57.985]
     lat_range = [-10.592, 1.6848]
 
     filtered_location = filter_location(location, long_range, lat_range)
+
+    map_image = plt.imread(map_path)
+
+    fig, ax = plt.subplots()
+    ax.set_title("Plotting Grow Data")
+    ax.imshow(map_image, extent=[lat_range[0], lat_range[1], long_range[0], long_range[1]])
+    ax.plot(filtered_location['Latitude'], filtered_location['Longitude'], 'bo')
+
+    plt.savefig(output_path)
 
 def main():
     grow_location = load_data("GrowLocations.csv")
